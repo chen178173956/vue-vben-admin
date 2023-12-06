@@ -31,7 +31,7 @@ export function createPermissionGuard(router: Router) {
 
     const token = userStore.getToken;
 
-    // Whitelist can be directly entered
+    // Whitelist can be directly entered    白名单
     if (whitePathList.includes(to.path as PageEnum)) {
       if (to.path === LOGIN_PATH && token) {
         const isSessionTimeout = userStore.getSessionTimeout;
@@ -48,7 +48,7 @@ export function createPermissionGuard(router: Router) {
       next();
       return;
     }
-    // token or user does not exist
+    // token or user does not exist   如果 token 不存在，从定向到登录页
     if (!token) {
       // You can access without permission. You need to set the routing meta.ignoreAuth to true
       if (to.meta.ignoreAuth) {
@@ -81,7 +81,7 @@ export function createPermissionGuard(router: Router) {
       return;
     }
 
-    // get userinfo while last fetch time is empty
+    // get userinfo while last fetch time is empty   获取用户信息 userInfo / roleList
     if (userStore.getLastUpdateTime === 0) {
       try {
         await userStore.getUserInfoAction();
@@ -90,12 +90,12 @@ export function createPermissionGuard(router: Router) {
         return;
       }
     }
-
+    // 根据判断是否重新获取动态路由
     if (permissionStore.getIsDynamicAddedRoute) {
       next();
       return;
     }
-
+    // 4、获取路由配置并动态添加路由配置
     const routes = await permissionStore.buildRoutesAction();
 
     routes.forEach((route) => {

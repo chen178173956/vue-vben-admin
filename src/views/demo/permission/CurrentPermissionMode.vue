@@ -18,6 +18,7 @@
   defineOptions({ name: 'CurrentPermissionMode' });
 
   const appStore = useAppStore();
+  // 获取权限模式
   const permissionMode = computed(() => appStore.getProjectConfig.permissionMode);
   const { togglePermissionMode } = usePermission();
 </script>

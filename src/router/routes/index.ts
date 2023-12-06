@@ -16,7 +16,7 @@ Object.keys(modules).forEach((key) => {
   const modList = Array.isArray(mod) ? [...mod] : [mod];
   routeModuleList.push(...modList);
 });
-
+// 读取的路由并未立即注册，而是等权限认证完后通过 router.addRoutes 添加到路由实例，实现权限的过滤
 export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];
 
 // 根路由
@@ -41,9 +41,14 @@ export const LoginRoute: AppRouteRecordRaw = {
 // Basic routing without permission
 // 未经许可的基本路由
 export const basicRoutes = [
+  // 登录路由 /login
   LoginRoute,
+  // 根路由 /
   RootRoute,
+  // 新页面 /main-out
   ...mainOutRoutes,
+  // 从定义 /redirect
   REDIRECT_ROUTE,
+  // 404 /:path(.*)*
   PAGE_NOT_FOUND_ROUTE,
 ];

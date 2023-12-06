@@ -134,6 +134,7 @@
     if (!data) return;
     try {
       loading.value = true;
+      // src/views/sys/login/LoginForm.vue
       const userInfo = await userStore.login({
         password: data.password,
         username: data.account,

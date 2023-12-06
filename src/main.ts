@@ -26,7 +26,7 @@ async function bootstrap() {
   setupStore(app);
 
   // Initialize internal system configuration
-  // 初始化内部系统配置
+  // 初始化内部系统配置、项目配置、样式主题、持久化缓存等等
   initAppConfigStore();
 
   // Register global components
@@ -44,7 +44,7 @@ async function bootstrap() {
   setupRouter(app);
 
   // router-guard
-  // 路由守卫
+  // 路由守卫、权限判断、初始化缓存数据
   setupRouterGuard(router);
 
   // Register global directive

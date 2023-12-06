@@ -9,7 +9,7 @@ import { isHttpUrl } from '@/utils/is';
 import { router } from '@/router';
 import { PermissionModeEnum } from '@/enums/appEnum';
 import { pathToRegexp } from 'path-to-regexp';
-
+// 自动加载 `modules` 目录下的路由模块
 const modules = import.meta.glob('./modules/**/*.ts', { eager: true });
 
 const menuModules: MenuModule[] = [];
@@ -63,7 +63,9 @@ async function getAsyncMenus() {
       return show;
     });
   };
+  // 后端模式 BACK
   if (isBackMode()) {
+    // 获取 this.setBackMenuList(menuList) 设置的菜单
     return menuFilter(permissionStore.getBackMenuList);
   }
   if (isRouteMappingMode()) {

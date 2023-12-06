@@ -109,6 +109,7 @@ export const usePermissionStore = defineStore({
     },
 
     // 构建路由
+    // src/store/modules/permission.ts
     async buildRoutesAction(): Promise<AppRouteRecordRaw[]> {
       const { t } = useI18n();
       const userStore = useUserStore();
@@ -167,11 +168,11 @@ export const usePermissionStore = defineStore({
         }
         return;
       };
-
+      // 区分权限模式
       switch (permissionMode) {
-        // 角色权限
+        // 角色权限    前端方式控制(菜单和路由分开配置)
         case PermissionModeEnum.ROLE:
-          // 对非一级路由进行过滤
+          // 对非一级路由进行过滤  根据权限过滤路由
           routes = filter(asyncRoutes, routeFilter);
           // 对一级路由根据角色权限过滤
           routes = routes.filter(routeFilter);
@@ -180,7 +181,7 @@ export const usePermissionStore = defineStore({
           routes = flatMultiLevelRoutes(routes);
           break;
 
-        // 路由映射， 默认进入该case
+        // 路由映射， 默认进入该case   前端方式控制(菜单由路由配置自动生成)
         case PermissionModeEnum.ROUTE_MAPPING:
           // 对非一级路由进行过滤
           routes = filter(asyncRoutes, routeFilter);
@@ -206,7 +207,7 @@ export const usePermissionStore = defineStore({
           break;
 
         //  If you are sure that you do not need to do background dynamic permissions, please comment the entire judgment below
-        //  如果确定不需要做后台动态权限，请在下方注释整个判断
+        //  如果确定不需要做后台动态权限，请在下方注释整个判断   后台方式控制
         case PermissionModeEnum.BACK:
           const { createMessage } = useMessage();
 
@@ -232,7 +233,7 @@ export const usePermissionStore = defineStore({
           routeList = transformObjToRoute(routeList);
 
           //  Background routing to menu structure
-          //  后台路由到菜单结构
+          //  后台路由到菜单结构  通过转换路由生成菜单
           const backMenuList = transformRouteToMenu(routeList);
           this.setBackMenuList(backMenuList);
 
@@ -240,7 +241,7 @@ export const usePermissionStore = defineStore({
           // 删除 meta.ignoreRoute 项
           routeList = filter(routeList, routeRemoveIgnoreFilter);
           routeList = routeList.filter(routeRemoveIgnoreFilter);
-
+          //设置保存菜单列表
           routeList = flatMultiLevelRoutes(routeList);
           routes = [PAGE_NOT_FOUND_ROUTE, ...routeList];
           break;

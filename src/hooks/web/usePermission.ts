@@ -46,6 +46,7 @@ export function usePermission() {
     const tabStore = useMultipleTabStore();
     tabStore.clearCacheTabs();
     resetRouter();
+    // 4、获取路由配置并动态添加路由配置
     const routes = await permissionStore.buildRoutesAction();
     routes.forEach((route) => {
       router.addRoute(route as unknown as RouteRecordRaw);
